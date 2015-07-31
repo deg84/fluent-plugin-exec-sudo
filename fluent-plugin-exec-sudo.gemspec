@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Tatsuya Deguchi"]
   spec.email         = ["t.deg84@gmail.com"]
 
-  spec.summary       = "out_exec with su for Fluentd"
+  spec.summary       = "out_exec with sudo for Fluentd"
   spec.homepage      = "https://github.com/deg84/fluent-plugin-exec-sudo"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
