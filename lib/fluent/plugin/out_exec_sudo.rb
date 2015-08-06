@@ -4,6 +4,11 @@ module Fluent
   class ExecSudoOutput < ExecOutput
     Plugin.register_output('exec_sudo', self)
 
+    def initialize
+      super
+      require 'open3'
+    end
+
     config_param :user, :string, :default => nil
 
     def write(chunk)
@@ -21,11 +26,12 @@ module Fluent
         prog = "sudo -u #{@user} -i sh -c '#{@command} #{tmpfile.path}'"
       end
 
-      system(prog)
-      ecode = $?.to_i
+      stdout, stderr, status = Open3.capture3(prog)
+      ecode = status.to_i
       tmpfile.delete if tmpfile
 
       if ecode != 0
+        log.debug "command stderr: #{stderr}"
         raise "command returns #{ecode}: #{prog}"
       end
     end
